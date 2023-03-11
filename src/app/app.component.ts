@@ -92,7 +92,7 @@ export class AppComponent implements OnInit {
     // });
     // observable.subscribe(console.log)
 
-    //--------------------------------------------4. Subscribe and Unsubscribe Component--------------------
+    //--------------------------------------------4. Subscribe and Unsubscribe Observable--------------------
     //observable
     const observable = new Observable((res) => {
 
