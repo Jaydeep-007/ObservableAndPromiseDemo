@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 import { } from 'rxjs/operators'
 
 @Component({
@@ -7,11 +7,14 @@ import { } from 'rxjs/operators'
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ObservableAndPromiseDemo';
 
-  constructor() {
+  private subscription?: Subscription;
 
+  constructor() { }
+
+  ngOnInit(): void {
     // //-------------------------------- 1. Emit Values-------------------------------------
     // var observable = new Observable(res => {
     //   res.next("Hello Piyush");
@@ -79,15 +82,38 @@ export class AppComponent {
     // });
     // observable.subscribe(console.log)
 
-    //Sync Observable
-    var observable = new Observable(res => {
-      console.log("Start Executing...");
-      res.next("Hello Piyush");
-      res.next("Hello Vivek");
-      res.next("Hello Rajesh");
-      console.log("Execution End...");
-    });
-    observable.subscribe(console.log)
+    // //Sync Observable
+    // var observable = new Observable(res => {
+    //   console.log("Start Executing...");
+    //   res.next("Hello Piyush");
+    //   res.next("Hello Vivek");
+    //   res.next("Hello Rajesh");
+    //   console.log("Execution End...");
+    // });
+    // observable.subscribe(console.log)
+
+    //--------------------------------------------4. Subscribe and Unsubscribe Component--------------------
+    //observable
+    const observable = new Observable((res) => {
+
+      let count = 0;
+        setInterval(() => {
+          count = count + 1;
+          res.next(count);
+        }
+          , 1000)
+    })
+
+    //subscribe the observable
+    this.subscription = observable.subscribe(ele => { console.log(ele) })
+
+    //unsubscribe the observable
+    setTimeout(() => {
+      this.subscription?.unsubscribe();
+    }
+    ,12000)
+
   }
 }
+
 
